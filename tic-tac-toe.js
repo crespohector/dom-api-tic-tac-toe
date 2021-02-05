@@ -1,5 +1,5 @@
 window.addEventListener("DOMContentLoaded", event =>{
-    
+
     let x = "https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-x.svg"
     let o = "https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-o.svg"
     let currentPlayer = x;
@@ -8,8 +8,13 @@ window.addEventListener("DOMContentLoaded", event =>{
     let xArray = [];
     let oArray = [];
     h1 = document.getElementById('game-status');
-    
+
     let board = document.getElementById('tic-tac-toe-board');
+    if (gameStatus !== 'won' || gamesStatus !== 'tie' || gamesStatus !== null) {
+        //diable new game button
+        //grab the new game button
+        newGameButton.disabled = true;
+    }
     //create an array of winnning combinations
     const winningArrays = [
         [document.querySelector('[id*="0"]').id, document.querySelector('[id*="1"]').id, document.querySelector('[id*="2"]').id],
@@ -21,14 +26,14 @@ window.addEventListener("DOMContentLoaded", event =>{
         [document.querySelector('[id*="2"]').id, document.querySelector('[id*="5"]').id, document.querySelector('[id*="8"]').id],
         [document.querySelector('[id*="2"]').id, document.querySelector('[id*="4"]').id, document.querySelector('[id*="6"]').id]
     ];
-    
+
     board.addEventListener('click', event => {
 
         let clicked = event.target.id;
         //disable clicks after game is won
         if (gameStatus === 'won') {
             return;
-        }    
+        }
         let img = document.createElement('img');
         img.src = currentPlayer;
         let target = document.getElementById(clicked);
@@ -40,7 +45,7 @@ window.addEventListener("DOMContentLoaded", event =>{
             oArray.push(clicked);
         }
         turnNumber++;
-        
+
         //iterate the array and compare current moves to winning array;
         for (i = 0; i < winningArrays.length; i++) {
             let subArr = winningArrays[i];
@@ -48,7 +53,7 @@ window.addEventListener("DOMContentLoaded", event =>{
             //if true; game status === 'win!'
             if(checker(xArray, subArr)) {
                 gameStatus = 'won';
-                h1.innerText = 'X WINS!'                
+                h1.innerText = 'X WINS!'
             } else if (checker(oArray, subArr)) {
                 oWins = true;
                 h1.innerText = 'O WINS!'
@@ -68,9 +73,10 @@ window.addEventListener("DOMContentLoaded", event =>{
         }
     })
     //build the 'new game' and 'give up' button functionality
+
     //add click event listeners to both buttons;
     //define button actions;
-    
+
 
 
 });
