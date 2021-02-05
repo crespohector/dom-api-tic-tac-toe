@@ -26,9 +26,7 @@ window.addEventListener("DOMContentLoaded", event =>{
         [document.querySelector('[id*="2"]').id, document.querySelector('[id*="4"]').id, document.querySelector('[id*="6"]').id]
     ];
 
-    //add click event listeners to both buttons;
-    //define button actions;
-    newGameButton.addEventListener('click', event => {
+    function reset () {
         xArray = [];
         oArray = [];
         let parent = document.getElementById("tic-tac-toe-board");
@@ -39,17 +37,23 @@ window.addEventListener("DOMContentLoaded", event =>{
         h1.innerText = '';
         newGameButton.disabled = true;
         giveUpButton.disabled = false;
+    };
+
+    //add click event listeners to both buttons;
+    //define button actions;
+    newGameButton.addEventListener('click', event => {
+        reset();
     })
     giveUpButton.addEventListener('click', event => {
         if(currentPlayer === o) {
             h1.innerHTML = 'X WINS!';
         } else {
-            h1.innerHTML = 'O WINS!';   
+            h1.innerHTML = 'O WINS!';
         }
-        
+        newGameButton.disabled = false;
+        giveUpButton.disabled = true;
         //not current player = winner;
         //game status === won
-
     });
     board.addEventListener('click', event => {
 
@@ -89,10 +93,15 @@ window.addEventListener("DOMContentLoaded", event =>{
             newGameButton.disabled = false;
             giveUpButton.disabled = true;
         }
-        //define winning game status to h1 tag;
-        if (turnNumber > 9) {
+        function tie () {
             gameStatus = 'tie';
             h1.innerText = 'Tie game!'
+            newGameButton.disabled = false;
+            giveUpButton.disabled = true;
+        }
+        //define winning game status to h1 tag;
+        if (turnNumber > 9) {
+            tie();
         }
         turnNumber++;
         if (currentPlayer === x) {
