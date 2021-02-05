@@ -1,5 +1,5 @@
 window.addEventListener("DOMContentLoaded", event =>{
-
+    
     let x = "https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-x.svg"
     let o = "https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-o.svg"
     let currentPlayer = x;
@@ -9,8 +9,8 @@ window.addEventListener("DOMContentLoaded", event =>{
     let oArray = [];
     let h1 = document.getElementById('game-status');
     let newGameButton = document.querySelector('.actions button');
-
-
+    
+    
     let board = document.getElementById('tic-tac-toe-board');
     //create an array of winnning combinations
     const winningArrays = [
@@ -24,18 +24,23 @@ window.addEventListener("DOMContentLoaded", event =>{
         [document.querySelector('[id*="2"]').id, document.querySelector('[id*="4"]').id, document.querySelector('[id*="6"]').id]
     ];
     
+    //add click event listeners to both buttons;
+    //define button actions;
+    newGameButton.addEventListener('click', event => {
+        xArray = [];
+        oArray = [];
+        let parent = document.getElementById("tic-tac-toe-board");
+        let children = parent.childNodes;
+        children.forEach(div => div.innerHTML = '');
+        gameStatus = 'active';
+        
+    })
+    
     board.addEventListener('click', event => {
-        if (gameStatus !== 'won' || gamesStatus !== 'tie' || gamesStatus !== null) {
-            //diable new game button
-            //grab the new game button
-            newGameButton.disabled = true;
-        } else {
-            newGameButton.disabled = false;
-        }
         
         let clicked = event.target.id;
         //disable clicks after game is won
-        if (gameStatus === 'won') {
+        if (gameStatus === 'won' || gameStatus === null) {
             return;
         }
         let img = document.createElement('img');
@@ -63,10 +68,15 @@ window.addEventListener("DOMContentLoaded", event =>{
                 h1.innerText = 'O WINS!'
             }
         }
-
+        
         if (turnNumber > 9) {
             gameStatus = 'Tie';
             h1.innerText = 'Tie game!'
+        }
+        if (gameStatus === 'won' || gameStatus === 'tie' || gameStatus === null) {
+            //diable new game button
+            //grab the new game button
+            newGameButton.disabled = false;
         }
         //define winning game status to h1 tag;
         if (currentPlayer === x) {
@@ -77,10 +87,8 @@ window.addEventListener("DOMContentLoaded", event =>{
         }
     })
     //build the 'new game' and 'give up' button functionality
-
-    //add click event listeners to both buttons;
-    //define button actions;
-
-
-
+    
+    
+    
+    
 });
