@@ -7,14 +7,11 @@ window.addEventListener("DOMContentLoaded", event =>{
     let gameStatus = null;
     let xArray = [];
     let oArray = [];
-    h1 = document.getElementById('game-status');
+    let h1 = document.getElementById('game-status');
+    let newGameButton = document.querySelector('.actions button');
+
 
     let board = document.getElementById('tic-tac-toe-board');
-    if (gameStatus !== 'won' || gamesStatus !== 'tie' || gamesStatus !== null) {
-        //diable new game button
-        //grab the new game button
-        newGameButton.disabled = true;
-    }
     //create an array of winnning combinations
     const winningArrays = [
         [document.querySelector('[id*="0"]').id, document.querySelector('[id*="1"]').id, document.querySelector('[id*="2"]').id],
@@ -26,9 +23,16 @@ window.addEventListener("DOMContentLoaded", event =>{
         [document.querySelector('[id*="2"]').id, document.querySelector('[id*="5"]').id, document.querySelector('[id*="8"]').id],
         [document.querySelector('[id*="2"]').id, document.querySelector('[id*="4"]').id, document.querySelector('[id*="6"]').id]
     ];
-
+    
     board.addEventListener('click', event => {
-
+        if (gameStatus !== 'won' || gamesStatus !== 'tie' || gamesStatus !== null) {
+            //diable new game button
+            //grab the new game button
+            newGameButton.disabled = true;
+        } else {
+            newGameButton.disabled = false;
+        }
+        
         let clicked = event.target.id;
         //disable clicks after game is won
         if (gameStatus === 'won') {
@@ -41,7 +45,7 @@ window.addEventListener("DOMContentLoaded", event =>{
         //pushes moves to player array
         if(currentPlayer === x) {
             xArray.push(clicked);
-        } else {
+        } else {    
             oArray.push(clicked);
         }
         turnNumber++;
