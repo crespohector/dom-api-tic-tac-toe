@@ -1,5 +1,5 @@
 window.addEventListener("DOMContentLoaded", event =>{
-    
+
     let x = "https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-x.svg"
     let o = "https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-o.svg"
     let currentPlayer = x;
@@ -9,8 +9,9 @@ window.addEventListener("DOMContentLoaded", event =>{
     let oArray = [];
     let h1 = document.getElementById('game-status');
     let newGameButton = document.querySelector('.actions button');
-    
-    
+    let giveUpButton = document.querySelector('.spacer button');
+    giveUpButton.disabled = true;
+
     let board = document.getElementById('tic-tac-toe-board');
     //create an array of winnning combinations
     const winningArrays = [
@@ -23,7 +24,7 @@ window.addEventListener("DOMContentLoaded", event =>{
         [document.querySelector('[id*="2"]').id, document.querySelector('[id*="5"]').id, document.querySelector('[id*="8"]').id],
         [document.querySelector('[id*="2"]').id, document.querySelector('[id*="4"]').id, document.querySelector('[id*="6"]').id]
     ];
-    
+
     //add click event listeners to both buttons;
     //define button actions;
     newGameButton.addEventListener('click', event => {
@@ -33,11 +34,18 @@ window.addEventListener("DOMContentLoaded", event =>{
         let children = parent.childNodes;
         children.forEach(div => div.innerHTML = '');
         gameStatus = 'active';
-        
+        turnNumber = 1;
+        h1.innerText = '';
+        newGameButton.disabled = true;
+        giveUpButton.disabled = false;
     })
-    
+    giveUpButton.addEventListener('click', event => {
+        //not current player = winner;
+        //game status === won
+
+    });
     board.addEventListener('click', event => {
-        
+
         let clicked = event.target.id;
         //disable clicks after game is won
         if (gameStatus === 'won' || gameStatus === null) {
@@ -50,10 +58,9 @@ window.addEventListener("DOMContentLoaded", event =>{
         //pushes moves to player array
         if(currentPlayer === x) {
             xArray.push(clicked);
-        } else {    
+        } else {
             oArray.push(clicked);
         }
-        turnNumber++;
 
         //iterate the array and compare current moves to winning array;
         for (i = 0; i < winningArrays.length; i++) {
@@ -64,21 +71,23 @@ window.addEventListener("DOMContentLoaded", event =>{
                 gameStatus = 'won';
                 h1.innerText = 'X WINS!'
             } else if (checker(oArray, subArr)) {
-                oWins = true;
+                gameStatus = 'won';
                 h1.innerText = 'O WINS!'
             }
         }
-        
-        if (turnNumber > 9) {
-            gameStatus = 'Tie';
-            h1.innerText = 'Tie game!'
-        }
+
         if (gameStatus === 'won' || gameStatus === 'tie' || gameStatus === null) {
             //diable new game button
             //grab the new game button
             newGameButton.disabled = false;
+            giveUpButton.disabled = true;
         }
         //define winning game status to h1 tag;
+        if (turnNumber > 9) {
+            gameStatus = 'tie';
+            h1.innerText = 'Tie game!'
+        }
+        turnNumber++;
         if (currentPlayer === x) {
             currentPlayer = o;
         }
@@ -87,8 +96,9 @@ window.addEventListener("DOMContentLoaded", event =>{
         }
     })
     //build the 'new game' and 'give up' button functionality
-    
-    
-    
-    
+    //it is not disabling when player wins;
+
+
+
+
 });
