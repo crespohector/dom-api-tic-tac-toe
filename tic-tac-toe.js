@@ -8,8 +8,9 @@ window.addEventListener("DOMContentLoaded", event =>{
     let xArray = [];
     let oArray = [];
     let h1 = document.getElementById('game-status');
-    let newGameButton = document.querySelector('.actions button');
-    let giveUpButton = document.querySelector('.spacer button');
+    let buttons = document.querySelectorAll('button');
+    let newGameButton = buttons[0];
+    let giveUpButton = buttons[1];
     giveUpButton.disabled = true;
 
     let board = document.getElementById('tic-tac-toe-board');
@@ -40,6 +41,12 @@ window.addEventListener("DOMContentLoaded", event =>{
         giveUpButton.disabled = false;
     })
     giveUpButton.addEventListener('click', event => {
+        if(currentPlayer === o) {
+            h1.innerHTML = 'X WINS!';
+        } else {
+            h1.innerHTML = 'O WINS!';   
+        }
+        
         //not current player = winner;
         //game status === won
 
