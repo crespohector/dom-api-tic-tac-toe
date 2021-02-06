@@ -11,9 +11,11 @@ window.addEventListener("DOMContentLoaded", event =>{
     let buttons = document.querySelectorAll('button');
     let newGameButton = buttons[0];
     let giveUpButton = buttons[1];
+    let board = document.getElementById('tic-tac-toe-board');
+    let squares = Array.from(board.children);
+    console.log(squares);
     giveUpButton.disabled = true;
 
-    let board = document.getElementById('tic-tac-toe-board');
     //create an array of winnning combinations
     const winningArrays = [
         [document.querySelector('[id*="0"]').id, document.querySelector('[id*="1"]').id, document.querySelector('[id*="2"]').id],
@@ -25,6 +27,25 @@ window.addEventListener("DOMContentLoaded", event =>{
         [document.querySelector('[id*="2"]').id, document.querySelector('[id*="5"]').id, document.querySelector('[id*="8"]').id],
         [document.querySelector('[id*="2"]').id, document.querySelector('[id*="4"]').id, document.querySelector('[id*="6"]').id]
     ];
+
+    function reLoad() {
+        xArray = localStorage.getItem('xArray');
+        oArray = localStorage.getItem('oArray');
+        
+        //scans arrays to find matches  
+        //loop through xArray and oArray
+        function repopulator(array) {
+            //take matches array and populate with imgs as needed.
+            let newArray = array.split(',');
+            //if array.includes a square's id, populate with that character's icon.
+                        
+            let img = document.createElement('img');
+        }
+        repopulator(xArray);
+        repopulator(oArray);
+    
+    }
+    reLoad();
 
     function reset () {
         xArray = [];
@@ -38,10 +59,11 @@ window.addEventListener("DOMContentLoaded", event =>{
         newGameButton.disabled = true;
         giveUpButton.disabled = false;
     };
-
+    
     //add click event listeners to both buttons;
     //define button actions;
     newGameButton.addEventListener('click', event => {
+        //newgame clears localstorage
         reset();
     })
     giveUpButton.addEventListener('click', event => {
@@ -73,6 +95,10 @@ window.addEventListener("DOMContentLoaded", event =>{
             oArray.push(clicked);
         }
 
+        //save oArray and xArray as key/value pairs in localstorage
+        localStorage.setItem('xArray', xArray);
+        localStorage.setItem('oArray', oArray);
+
         //iterate the array and compare current moves to winning array;
         for (i = 0; i < winningArrays.length; i++) {
             let subArr = winningArrays[i];
@@ -88,25 +114,27 @@ window.addEventListener("DOMContentLoaded", event =>{
         }
 
         if (gameStatus === 'won' || gameStatus === 'tie' || gameStatus === null) {
-            //diable new game button
-            //grab the new game button
             newGameButton.disabled = false;
             giveUpButton.disabled = true;
         }
+        
         function tie () {
             gameStatus = 'tie';
             h1.innerText = 'Tie game!'
             newGameButton.disabled = false;
             giveUpButton.disabled = true;
         }
-        //define winning game status to h1 tag;
+        
         if (turnNumber > 9) {
             tie();
         }
+        
         turnNumber++;
+        
         if (currentPlayer === x) {
             currentPlayer = o;
         }
+        
         else if (currentPlayer === o) {
             currentPlayer = x;
         }
