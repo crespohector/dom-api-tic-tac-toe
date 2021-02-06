@@ -1,5 +1,5 @@
 window.addEventListener("DOMContentLoaded", event =>{
-
+    //declared variables
     let x = "https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-x.svg"
     let o = "https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-o.svg"
     let currentPlayer = x;
@@ -28,25 +28,34 @@ window.addEventListener("DOMContentLoaded", event =>{
         [document.querySelector('[id*="2"]').id, document.querySelector('[id*="4"]').id, document.querySelector('[id*="6"]').id]
     ];
 
+    //define function for page refresh
     function reLoad() {
+        // grab moves from localStorage
         xArray = localStorage.getItem('xArray');
         oArray = localStorage.getItem('oArray');
         
-        //scans arrays to find matches  
-        //loop through xArray and oArray
+        //
+        //TODO: finish functions to loop through arrays and scans arrays to find matches  
         function repopulator(array) {
-            //take matches array and populate with imgs as needed.
+           //converts moves into moves array
             let newArray = array.split(',');
-            //if array.includes a square's id, populate with that character's icon.
-                        
-            let img = document.createElement('img');
+            //TODO: if array.includes a square's id, populate with that character's icon.                        
+
         }
-        repopulator(xArray);
-        repopulator(oArray);
+        //call repopulator function for each character's moves array if there are arrays in localstorage.
+        if (xArray) {
+            repopulator(xArray);
+        }
+
+        if (oArray){
+            repopulator(oArray);
+        };
     
     }
+    //call reload function upon domcontentloaded event to populate board with localstorage
     reLoad();
 
+    //newgame button's reset function resets the game
     function reset () {
         xArray = [];
         oArray = [];
@@ -58,6 +67,8 @@ window.addEventListener("DOMContentLoaded", event =>{
         h1.innerText = '';
         newGameButton.disabled = true;
         giveUpButton.disabled = false;
+        localStorage.removeItem('xArray');
+        localStorage.removeItem('oArray');
     };
     
     //add click event listeners to both buttons;
@@ -66,6 +77,7 @@ window.addEventListener("DOMContentLoaded", event =>{
         //newgame clears localstorage
         reset();
     })
+
     giveUpButton.addEventListener('click', event => {
         if(currentPlayer === o) {
             h1.innerHTML = 'X WINS!';
@@ -74,16 +86,17 @@ window.addEventListener("DOMContentLoaded", event =>{
         }
         newGameButton.disabled = false;
         giveUpButton.disabled = true;
-        //not current player = winner;
-        //game status === won
     });
+
+    //board checks for moves
     board.addEventListener('click', event => {
 
         let clicked = event.target.id;
-        //disable clicks after game is won
+        //disable clicks before game/after game is won
         if (gameStatus === 'won' || gameStatus === null) {
             return;
         }
+        //create img, place in square div
         let img = document.createElement('img');
         img.src = currentPlayer;
         let target = document.getElementById(clicked);
@@ -112,12 +125,13 @@ window.addEventListener("DOMContentLoaded", event =>{
                 h1.innerText = 'O WINS!'
             }
         }
-
+        //disable buttons when appropriate
         if (gameStatus === 'won' || gameStatus === 'tie' || gameStatus === null) {
             newGameButton.disabled = false;
             giveUpButton.disabled = true;
         }
         
+        //declare tie actions and when to invoke
         function tie () {
             gameStatus = 'tie';
             h1.innerText = 'Tie game!'
@@ -129,8 +143,10 @@ window.addEventListener("DOMContentLoaded", event =>{
             tie();
         }
         
+        //increment the turn counter
         turnNumber++;
         
+        //change turns
         if (currentPlayer === x) {
             currentPlayer = o;
         }
@@ -139,10 +155,4 @@ window.addEventListener("DOMContentLoaded", event =>{
             currentPlayer = x;
         }
     })
-    //build the 'new game' and 'give up' button functionality
-    //it is not disabling when player wins;
-
-
-
-
 });
